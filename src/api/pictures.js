@@ -54,3 +54,23 @@ export const deletePictureItemData = (id) => {
     method: 'get'
   })
 }
+
+export const getChaptersData = (params) => {
+  let id = params['id'];
+  delete params['id'];
+  return axios.request({
+    url: 'pictures/' + id,
+    params: params,
+    method: 'get'
+  })
+}
+
+
+export const updateChapterData = (data) => {
+  data['_method'] = 'put'
+  return axios.request({
+    url: 'cartoons/' + data['id'],
+    data: data,
+    method: 'post'
+  })
+}

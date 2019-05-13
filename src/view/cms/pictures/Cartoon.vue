@@ -66,7 +66,7 @@
             :to="'/cms/cartoons/chapter/'+row.id"
           >
             <Icon type="ios-eye" size="18" color="green"/>
-            <span style="color:green">查看图片</span>
+            <span style="color:green">查看章节</span>
           </Button>
         </template>
       </Table>

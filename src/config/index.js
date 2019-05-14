@@ -18,10 +18,7 @@ export default {
    */
   baseUrl: {
     local: 'http://homestead.laravel/api/admin/',
-    dev: 'https://dev-api.nqyong.com/api/risk/api/',
-    test: 'https://test-api.nqyong.com/api/risk/api/',
-    pre: 'https://test2-api.nqyong.com/api/risk/api/',
-    prod: 'https://api.nqyong.com/api/risk/api/'
+    prod: 'https://api.douyule.com/api/admin/'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home

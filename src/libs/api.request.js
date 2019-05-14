@@ -7,12 +7,6 @@ let url = window.location.href
 let baseUrl = ''
 if (url.indexOf('localhost')) {
   baseUrl = config.baseUrl.local
-} else if (url.indexOf('dev-risk')) {
-  baseUrl = config.baseUrl.dev
-} else if (url.indexOf('test-risk')) {
-  baseUrl = config.baseUrl.test
-} else if (url.indexOf('test2-risk')) {
-  baseUrl = config.baseUrl.pre
 } else {
   baseUrl = config.baseUrl.prod
 }

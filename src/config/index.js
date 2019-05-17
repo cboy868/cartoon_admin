@@ -18,7 +18,7 @@ export default {
    */
   baseUrl: {
     local: 'http://homestead.laravel/api/admin/',
-    prod: 'https://api.douyule.com/api/admin/'
+    prod: 'http://api.douyule.com/api/admin/'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home

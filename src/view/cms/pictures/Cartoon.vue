@@ -21,6 +21,13 @@
       </div>
 
       <Table border stripe :columns="columns" :data="tableData" ref="tables">
+        <template slot-scope="{ row }" slot="thumb">
+          <img
+            :src="row.thumb"
+            style="height:32px;overflow:hidden;border-redius:5px;cursor:pointer"
+            @click="handleView(row.thumb)"
+          >
+        </template>
         <template slot-scope="{ row,index }" slot="name">
           <strong v-if="editing != index">{{ row.name }}</strong>
           <Input v-if="editing == index" v-model="updateForm.name" placeholder="输入新标题"/>
@@ -50,6 +57,7 @@
           >
             <span style="color:green">编辑</span>
           </Button>
+          
           <Button
             type="default"
             size="small"
@@ -59,6 +67,22 @@
           >
             <span>保存</span>
           </Button>
+           <Upload
+            name="cover"
+            :format="['jpg','jpeg','png']"
+            :max-size="2048"
+            :data="{id:row.id,index:index}"
+            :action="uploadAction"
+            :on-success="uploadSuccess"
+            :show-upload-list="false"
+            style="display:inline"
+          >
+            <Button
+              type="default"
+              size="small"
+              icon="ios-cloud-upload-outline"
+            >封面</Button>
+          </Upload>
           <Button
             type="default"
             size="small"
@@ -70,6 +94,10 @@
           </Button>
         </template>
       </Table>
+      <Modal title="查看图片" v-model="visible">
+        <img :src="currentThumb" v-if="visible" style="width: 100%">
+        <div slot="footer"></div>
+      </Modal>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page
@@ -86,6 +114,7 @@
 </template>
 
 <script>
+import axios from "@/libs/api.request";
 import Tables from '_c/tables'
 import {
   getPictureData,
@@ -99,6 +128,9 @@ export default {
   },
   data () {
     return {
+       currentThumb: "",
+      visible: false,
+      uploadAction: "",
       modal: false,
       searchName: '',
       updateForm: {},
@@ -111,6 +143,7 @@ export default {
         { title: '分类', slot: 'category', width: '150px' },
         { title: '介绍', slot: 'intro' },
         { title: '创建时间', key: 'created_at', width: '150px' },
+        { title: "封面", slot: "thumb", width: "100px" ,className:"thumb"},
         {
           title: '操作',
           slot: 'action',
@@ -123,6 +156,16 @@ export default {
     }
   },
   methods: {
+     handleView(thumb) {
+      console.dir(thumb);
+      this.currentThumb = thumb;
+      this.visible = true;
+    },
+    uploadSuccess(res, file, fileList) {
+      if (res.code === "0") {
+        this.tableData[res.data.params["index"]]["thumb"] = res.data.path;
+      }
+    },
     search () {
       this.getData({ name: this.searchName })
     },
@@ -171,7 +214,7 @@ export default {
           if (res.data.code === '0') {
             this.total = res.data.data.total
             this.pageSize = res.data.data.per_page
-            // let baseUrl = res.data.data.base_url
+            let baseUrl = res.data.data.base_url
             this.tableData = []
             res.data.data.data.forEach(item => {
               this.tableData.push({
@@ -182,6 +225,7 @@ export default {
                 name: item.name,
                 intro: item.intro,
                 created_by: item.createdby.name,
+                thumb: baseUrl + item.thumb,
                 created_at: item.created_at
               })
             })
@@ -194,9 +238,13 @@ export default {
   },
   mounted () {
     this.getData({ type: 2 })
+    this.uploadAction = axios.baseUrl + "cover";
   }
 }
 </script>
 
 <style>
+.thumb .ivu-table-cell div{
+  overflow: hidden;
+}
 </style>

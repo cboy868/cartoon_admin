@@ -69,6 +69,15 @@ export default [
         component: () => import('@/view/cms/pictures/PictureCategory')
       },
       {
+        path: 'focus',
+        name: 'focus',
+        meta: {
+          title: '焦点图管理',
+          icon: 'md-home'
+        },
+        component: () => import('@/view/cms/focus/Index')
+      },
+      {
         path: 'picture',
         name: 'picture',
         meta: {

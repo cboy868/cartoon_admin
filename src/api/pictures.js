@@ -6,6 +6,26 @@ export const getPictureCategoryData = () => {
     method: 'get'
   })
 }
+/**
+ * 取主图
+ */
+export const getPictureImagesData = (id) => {
+  return axios.request({
+    url: 'picture_images/' + id,
+    method: 'get'
+  })
+}
+
+/**
+ * 删除主图
+ */
+export const deletePictureImageData = (id, img) => {
+  return axios.request({
+    url: 'picture-delete-img/' + id,
+    data: { img: img },
+    method: 'post',
+  })
+}
 
 export const deletePictureCategoryData = (id) => {
   return axios.request({

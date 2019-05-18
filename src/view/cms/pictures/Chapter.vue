@@ -2,13 +2,16 @@
   <div>
     <Card>
       <div class="search-con search-con-top">
-        <h2>{{pictureName}}  <small>的章节管理</small> </h2>  
+        <h2>
+          {{pictureName}}
+          <small>的章节管理</small>
+        </h2>
       </div>
-      <Divider />
+      <Divider/>
 
       <Table border stripe :columns="columns" :data="tableData" ref="tables">
         <template slot-scope="{ row }" slot="thumb">
-          <img :src="row.thumb" alt="" style="width:52px;height:52px;">
+          <img :src="row.thumb" alt style="width:52px;height:52px;">
         </template>
         <template slot-scope="{ row,index }" slot="chapter">
           <strong v-if="editing != index">{{ row.chapter }}</strong>
@@ -49,15 +52,6 @@
             v-if="editing == index"
           >
             <span>保存</span>
-          </Button>
-          <Button
-            type="default"
-            size="small"
-            style="margin-right: 5px"
-            :to="'/cms/cartoons/chapter/'+row.id"
-          >
-            <Icon type="ios-eye" size="18" color="green"/>
-            <span style="color:green">查看图片</span>
           </Button>
         </template>
       </Table>
@@ -120,11 +114,11 @@ export default {
     },
     save(index) {
       let upData = {
-        id:this.updateForm.id,
-        title:this.updateForm.title,
-        subtitle:this.updateForm.subtitle,
-        chapter:this.updateForm.chapter,
-        intro:this.updateForm.intro
+        id: this.updateForm.id,
+        title: this.updateForm.title,
+        subtitle: this.updateForm.subtitle,
+        chapter: this.updateForm.chapter,
+        intro: this.updateForm.intro
       };
       updateChapterData(upData).then(res => {
         if (res.data.code === "0") {
@@ -140,7 +134,7 @@ export default {
       });
     },
     changepage(index) {
-      this.getData({ page: index, id:this.pictureId});
+      this.getData({ page: index, id: this.pictureId });
     },
     getData(params) {
       getChaptersData(params)

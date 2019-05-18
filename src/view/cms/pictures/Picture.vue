@@ -84,9 +84,9 @@
             >封面</Button>
           </Upload>
 
-          <Button type="default" size="small" style="margin-right: 5px" @click="show(index)">
+          <Button type="default" size="small" style="margin-right: 5px" :to="'/cms/picture/images/'+row.id">
             <Icon type="ios-eye" size="18" color="green"/>
-            <span style="color:green">查看图片</span>
+            <span style="color:green">主图管理</span>
           </Button>
         </template>
       </Table>

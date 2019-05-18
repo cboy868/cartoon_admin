@@ -1,65 +1,103 @@
 <template>
   <div style="background:#eee;padding: 20px">
     <Card :bordered="false" v-for="(focus, index) in tableData" :key="focus.id">
-      <p slot="title">
-        {{focus.name}}
-        
-      </p>
+      <p slot="title">{{focus.name}}</p>
       <Row>
-      <Col span="7" v-for="item in focus.items" :key="item.id" style="margin-right:10px;">
-        <img :src="item.path" style="display:inline-block;width:200px;height:120px;">
-        <Form ref="formInline">
+        <Col
+          span="7"
+          v-for="(item,itemIndex) in focus.items"
+          :key="item.id"
+          style="margin-right:10px;"
+        >
+          <img :src="baseUrl + item.path" style="display:inline-block;width:200px;height:120px;">
+          <Form ref="formInline">
             <FormItem prop="user">
-                <Input type="text"  placeholder="标题"></Input>
+              <Input type="text" placeholder="标题" v-model="item.title"/>
             </FormItem>
             <FormItem prop="password">
-                <Input type="text" placeholder="目标url地址">
-                    <Icon type="ios-link" slot="prepend"></Icon>
-                </Input>
+              <Input type="text" placeholder="目标url地址" v-model="item.link">
+                <Icon type="ios-link" slot="prepend"></Icon>
+              </Input>
             </FormItem>
             <FormItem>
-                <Button type="primary" >保存</Button>
+              <Button
+                type="primary"
+                size="small"
+                style="margin-right:10px;"
+                @click="update(index, itemIndex)"
+              >保存</Button>
+              <Button type="error" size="small" @click="del(index,itemIndex)">删除</Button>
             </FormItem>
-        </Form>
-      </Col>
+          </Form>
+        </Col>
       </Row>
       <Upload
-            name="focus"
-            :format="['jpg','jpeg','png']"
-            :max-size="2048"
-            :data="{id:focus.id,index:index}"
-            :action="uploadAction"
-            :on-success="uploadSuccess"
-            :show-upload-list="false"
-            multiple
-            style="display:inline"
-          >
-            <Button
-              type="default"
-              size="small"
-              icon="ios-cloud-upload-outline"
-            >封面</Button>
-          </Upload>
+        name="focus"
+        :format="['jpg','jpeg','png']"
+        :max-size="2048"
+        :data="{id:focus.id,index:index}"
+        :action="uploadAction"
+        :on-success="uploadSuccess"
+        :show-upload-list="false"
+        multiple
+        style="display:inline"
+      >
+        <Button type="default" size="small" icon="ios-cloud-upload-outline">封面</Button>
+      </Upload>
     </Card>
   </div>
 </template>
 
 <script>
 import axios from "@/libs/api.request";
-import { getFocusData } from "@/api/focus";
+import {
+  getFocusData,
+  updateFocusItemData,
+  deleteFocusItemData
+} from "@/api/focus";
 export default {
   name: "focus",
   data() {
     return {
-        uploadAction: "",
+      baseUrl: "",
+      uploadAction: "",
       tableData: []
     };
   },
   methods: {
-      uploadSuccess(res, file, fileList) {
+    uploadSuccess(res, file, fileList) {
       if (res.code === "0") {
-        this.tableData[res.data.params["index"]]["thumb"] = res.data.path;
+        this.tableData[res.data.params["index"]]["items"].push(res.data.model);
+      } else {
+        this.$Message.error("上传图片失败");
       }
+    },
+    update(index, itemIndex) {
+      updateFocusItemData(this.tableData[index]["items"][itemIndex]).then(
+        res => {
+          if (res.data.code === "0") {
+            this.$Message.success("修改成功");
+          } else {
+            this.$Message.error("修改失败");
+          }
+        }
+      );
+      console.dir(this.tableData[index]);
+    },
+    del(index, itemIndex) {
+      if (!confirm("确认删除此图片吗？")) {
+        return false;
+      }
+      deleteFocusItemData(this.tableData[index]["items"][itemIndex].id).then(
+        res => {
+          if (res.data.code === "0") {
+            this.$Message.success("删除成功");
+            this.tableData[index]["items"].splice(itemIndex, 1);
+          } else {
+            this.$Message.error("删除失败");
+          }
+        }
+      );
     },
     getData() {
       getFocusData()
@@ -67,7 +105,8 @@ export default {
           if (res.data.code === "0") {
             this.total = res.data.data.total;
             this.pageSize = res.data.data.per_page;
-            let baseUrl = res.data.data.base_url;
+            this.baseUrl = res.data.data.base_url;
+
             this.tableData = [];
             res.data.data.data.forEach(focus => {
               this.tableData.push({
@@ -79,8 +118,6 @@ export default {
               });
             });
           }
-
-          console.dir(res.data);
         })
         .catch(() => {});
     }
@@ -93,43 +130,7 @@ export default {
 </script>
 
 <style>
-.demo-upload-list {
-  display: inline-block;
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  line-height: 60px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+.ivu-col {
   overflow: hidden;
-  background: #fff;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  margin-right: 4px;
-}
-.demo-upload-list img {
-  width: 100%;
-  height: 100%;
-}
-.demo-upload-list-cover {
-  display: none;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.6);
-}
-.demo-upload-list:hover .demo-upload-list-cover {
-  display: block;
-}
-.demo-upload-list-cover i {
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  margin: 0 2px;
-}
-.ivu-col{
-    overflow: hidden;
 }
 </style>

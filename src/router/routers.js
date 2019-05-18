@@ -94,6 +94,16 @@ export default [
               icon: 'md-home'
             },
             component: () => import('@/view/cms/pictures/Picture')
+          },
+          {
+            path: 'images/:id',
+            name: 'images',
+            meta: {
+              title: '主图管理',
+              icon: 'md-home',
+              hideInMenu: true
+            },
+            component: () => import('@/view/cms/pictures/Images')
           }
         ]
       },

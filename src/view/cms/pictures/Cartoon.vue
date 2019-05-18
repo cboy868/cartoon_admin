@@ -57,7 +57,7 @@
           >
             <span style="color:green">编辑</span>
           </Button>
-          
+
           <Button
             type="default"
             size="small"
@@ -67,7 +67,7 @@
           >
             <span>保存</span>
           </Button>
-           <Upload
+          <Upload
             name="cover"
             :format="['jpg','jpeg','png']"
             :max-size="2048"
@@ -77,11 +77,7 @@
             :show-upload-list="false"
             style="display:inline"
           >
-            <Button
-              type="default"
-              size="small"
-              icon="ios-cloud-upload-outline"
-            >封面</Button>
+            <Button type="default" size="small" icon="ios-cloud-upload-outline">封面</Button>
           </Upload>
           <Button
             type="default"
@@ -115,48 +111,48 @@
 
 <script>
 import axios from "@/libs/api.request";
-import Tables from '_c/tables'
+import Tables from "_c/tables";
 import {
   getPictureData,
   deletePictureData,
   updatePictureData
-} from '@/api/pictures'
+} from "@/api/pictures";
 export default {
-  name: 'pictures',
+  name: "pictures",
   components: {
     Tables
   },
-  data () {
+  data() {
     return {
-       currentThumb: "",
+      currentThumb: "",
       visible: false,
       uploadAction: "",
       modal: false,
-      searchName: '',
+      searchName: "",
       updateForm: {},
       categorys: [],
-      editing: 'noedit',
+      editing: "noedit",
       total: 0,
       pageSize: 0,
       columns: [
-        { title: '标题', slot: 'name', width: '300px' },
-        { title: '分类', slot: 'category', width: '150px' },
-        { title: '介绍', slot: 'intro' },
-        { title: '创建时间', key: 'created_at', width: '150px' },
-        { title: "封面", slot: "thumb", width: "100px" ,className:"thumb"},
+        { title: "标题", slot: "name", width: "300px" },
+        { title: "分类", slot: "category", width: "150px" },
+        { title: "介绍", slot: "intro" },
+        { title: "创建时间", key: "created_at", width: "150px" },
+        { title: "封面", slot: "thumb", width: "100px", className: "thumb" },
         {
-          title: '操作',
-          slot: 'action',
+          title: "操作",
+          slot: "action",
           width: 250,
-          align: 'center',
-          fixed: 'right'
+          align: "center",
+          fixed: "right"
         }
       ],
       tableData: []
-    }
+    };
   },
   methods: {
-     handleView(thumb) {
+    handleView(thumb) {
       console.dir(thumb);
       this.currentThumb = thumb;
       this.visible = true;
@@ -166,56 +162,56 @@ export default {
         this.tableData[res.data.params["index"]]["thumb"] = res.data.path;
       }
     },
-    search () {
-      this.getData({ name: this.searchName })
+    search() {
+      this.getData({ name: this.searchName });
     },
-    reset () {
-      this.searchValue = ''
-      this.getData({ type: 2 })
+    reset() {
+      this.searchValue = "";
+      this.getData({ type: 2 });
     },
-    remove (index) {
-      let id = this.tableData[index].id
+    remove(index) {
+      let id = this.tableData[index].id;
       deletePictureData(id).then(res => {
-        if (res.data.code === '0') {
-          this.tableData.splice(index, 1)
+        if (res.data.code === "0") {
+          this.tableData.splice(index, 1);
         }
-      })
+      });
     },
-    edit (index) {
-      this.editing = index
-      this.updateForm = this.tableData[index]
+    edit(index) {
+      this.editing = index;
+      this.updateForm = this.tableData[index];
     },
-    save (index) {
+    save(index) {
       updatePictureData(this.updateForm).then(res => {
-        console.dir(res.data)
+        console.dir(res.data);
 
-        if (res.data.code === '0') {
+        if (res.data.code === "0") {
           let obj = this.categorys.find(
             o => o.id === this.updateForm.category_id
-          )
+          );
 
-          this.$Message.success('数据修改成功')
-          this.tableData[index].name = this.updateForm.name
-          this.tableData[index].category_id = this.updateForm.category_id
-          this.tableData[index].category = obj.name
-          this.tableData[index].intro = this.updateForm.intro
+          this.$Message.success("数据修改成功");
+          this.tableData[index].name = this.updateForm.name;
+          this.tableData[index].category_id = this.updateForm.category_id;
+          this.tableData[index].category = obj.name;
+          this.tableData[index].intro = this.updateForm.intro;
         } else {
-          this.$Message.error('数据修改失败：' + res.data.msg)
+          this.$Message.error("数据修改失败：" + res.data.msg);
         }
-        this.editing = 'noedit'
-      })
+        this.editing = "noedit";
+      });
     },
-    changepage (index) {
-      this.getData({ page: index, type: 2 })
+    changepage(index) {
+      this.getData({ page: index, type: 2 });
     },
-    getData (params) {
+    getData(params) {
       getPictureData(params)
         .then(res => {
-          if (res.data.code === '0') {
-            this.total = res.data.data.total
-            this.pageSize = res.data.data.per_page
-            let baseUrl = res.data.data.base_url
-            this.tableData = []
+          if (res.data.code === "0") {
+            this.total = res.data.data.total;
+            this.pageSize = res.data.data.per_page;
+            let baseUrl = res.data.data.base_url;
+            this.tableData = [];
             res.data.data.data.forEach(item => {
               this.tableData.push({
                 id: item.id.toString(),
@@ -227,24 +223,24 @@ export default {
                 created_by: item.createdby.name,
                 thumb: baseUrl + item.thumb,
                 created_at: item.created_at
-              })
-            })
-            this.categorys = res.data.data.categorys
-            console.dir(this.categorys)
+              });
+            });
+            this.categorys = res.data.data.categorys;
+            console.dir(this.categorys);
           }
         })
-        .catch(() => {})
+        .catch(() => {});
     }
   },
-  mounted () {
-    this.getData({ type: 2 })
+  mounted() {
+    this.getData({ type: 2 });
     this.uploadAction = axios.baseUrl + "cover";
   }
-}
+};
 </script>
 
 <style>
-.thumb .ivu-table-cell div{
+.thumb .ivu-table-cell div {
   overflow: hidden;
 }
 </style>

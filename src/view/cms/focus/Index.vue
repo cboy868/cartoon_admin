@@ -1,7 +1,21 @@
 <template>
   <div style="background:#eee;padding: 20px">
     <Card :bordered="false" v-for="(focus, index) in tableData" :key="focus.id">
-      <h2 slot="title">{{focus.name}}</h2>
+      <h2 slot="title">{{focus.name}} <small>
+        <Upload
+        name="focus"
+        :format="['jpg','jpeg','png']"
+        :max-size="2048"
+        :data="{id:focus.id,index:index}"
+        :action="uploadAction"
+        :on-success="uploadSuccess"
+        :show-upload-list="false"
+        multiple
+        style="display:inline"
+      >
+        <Button type="default" size="small" icon="ios-cloud-upload-outline">上传</Button>
+      </Upload>
+        </small> </h2>
       <Row>
         <Col
           span="7"
@@ -31,19 +45,6 @@
           </Form>
         </Col>
       </Row>
-      <Upload
-        name="focus"
-        :format="['jpg','jpeg','png']"
-        :max-size="2048"
-        :data="{id:focus.id,index:index}"
-        :action="uploadAction"
-        :on-success="uploadSuccess"
-        :show-upload-list="false"
-        multiple
-        style="display:inline"
-      >
-        <Button type="default" size="small" icon="ios-cloud-upload-outline">封面</Button>
-      </Upload>
     </Card>
   </div>
 </template>

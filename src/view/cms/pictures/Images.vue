@@ -1,7 +1,7 @@
 <template>
   <div style="background:#eee;padding: 20px">
     <Card :bordered="false">
-      <p slot="title">标题</p>
+      <p slot="title">{{detail.name}}</p>
       <div v-for="img in images" :key="img.id" style="width:220px;height:180px;float:left">
         <img :src="baseUrl + img" style="display:inline-block;width:200px;height:120px;">
         <Form ref="formInline">

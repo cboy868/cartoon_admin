@@ -1,7 +1,7 @@
 <template>
   <div style="background:#eee;padding: 20px">
     <Card :bordered="false" v-for="(focus, index) in tableData" :key="focus.id">
-      <p slot="title">{{focus.name}}</p>
+      <h2 slot="title">{{focus.name}}</h2>
       <Row>
         <Col
           span="7"

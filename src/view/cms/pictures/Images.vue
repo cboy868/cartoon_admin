@@ -31,7 +31,7 @@
 import axios from "@/libs/api.request";
 import { getPictureImagesData, deletePictureImageData } from "@/api/pictures";
 export default {
-  name: "images",
+  name: "imagesrel",
   data() {
     return {
       pictureId: 0,
@@ -76,6 +76,7 @@ export default {
   },
   mounted() {
     this.pictureId = this.$route.params.id;
+    console.dir(this.pictureId);
     this.getData(this.pictureId);
     this.uploadAction = axios.baseUrl + "upimages";
   }

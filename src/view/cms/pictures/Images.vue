@@ -14,7 +14,7 @@
       <Upload
         name="image"
         :format="['jpg','jpeg','png']"
-        :max-size="2048"
+        :max-size="5048"
         :data="{id:pictureId}"
         :action="uploadAction"
         :on-success="uploadSuccess"

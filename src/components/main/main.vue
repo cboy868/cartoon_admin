@@ -1,6 +1,17 @@
 <template>
   <Layout style="height: 100%" class="main">
-    <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
+
+      <Header class="header-con">
+        <header-new :collapsed="collapsed" @on-coll-change="handleCollapsedChange" :maxLogo="maxLogo">
+          <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
+          <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
+          <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store>
+          <fullscreen v-model="isFullscreen" style="margin-right: 10px;"/>
+        </header-new>
+      </Header>
+    
+    <Layout>
+      <Sider hide-trigger collapsible :width="256" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
@@ -9,15 +20,6 @@
         </div>
       </side-menu>
     </Sider>
-    <Layout>
-      <Header class="header-con">
-        <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
-          <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
-          <language v-if="$config.useI18n" @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local"/>
-          <error-store v-if="$config.plugin['error-store'] && $config.plugin['error-store'].showInHeader" :has-read="hasReadErrorPage" :count="errorCount"></error-store>
-          <fullscreen v-model="isFullscreen" style="margin-right: 10px;"/>
-        </header-bar>
-      </Header>
       <Content class="main-content-con">
         <Layout class="main-layout-con">
           <div class="tag-nav-wrapper">
@@ -35,6 +37,7 @@
   </Layout>
 </template>
 <script>
+import HeaderNew from './components/header-new'
 import SideMenu from './components/side-menu'
 import HeaderBar from './components/header-bar'
 import TagsNav from './components/tags-nav'
@@ -52,6 +55,7 @@ import './main.less'
 export default {
   name: 'Main',
   components: {
+  HeaderNew,
     SideMenu,
     HeaderBar,
     Language,

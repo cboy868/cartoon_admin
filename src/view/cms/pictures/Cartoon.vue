@@ -83,7 +83,7 @@
             type="default"
             size="small"
             style="margin-right: 5px"
-            :to="'/cms/cartoons/chapter/'+row.id"
+            :to="'chapter/'+row.id"
           >
             <Icon type="ios-eye" size="18" color="green"/>
             <span style="color:green">查看章节</span>

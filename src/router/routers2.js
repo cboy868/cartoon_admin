@@ -69,13 +69,13 @@ export default [
         component: parentView,
         children: [
           {
-            path: 'categorys',
-            name: 'categorys',
+            path: 'files',
+            name: 'files',
             meta: {
-              title: '分类',
+              title: '文件测试',
               icon: 'md-home'
             },
-            component: () => import('@/view/cms/pictures/PictureCategory')
+            component: () => import('@/view/cms/file/Picture')
           },
           {
             path: 'pictures',
@@ -97,6 +97,15 @@ export default [
             component: () => import('@/view/cms/pictures/Images')
           },
           {
+            path: 'categorys',
+            name: 'categorys',
+            meta: {
+              title: '分类',
+              icon: 'md-home'
+            },
+            component: () => import('@/view/cms/pictures/PictureCategory')
+          },
+          {
             path: 'focus',
             name: 'focus',
             meta: {
@@ -105,11 +114,31 @@ export default [
             },
             component: () => import('@/view/cms/focus/Index')
           },
+        ]
+      },
+      {
+        path: 'cartoons',
+        name: 'cartoons',
+        meta: {
+          title: '漫画管理',
+          icon: 'md-home'
+        },
+        component: parentView,
+        children: [
           {
             path: 'cartoon',
             name: 'cartoon',
             meta: {
               title: '漫画管理',
+              icon: 'md-home'
+            },
+            component: () => import('@/view/cms/pictures/Cartoon')
+          },
+          {
+            path: 'cartoon2',
+            name: 'cartoon2',
+            meta: {
+              title: '漫画管理2',
               icon: 'md-home'
             },
             component: () => import('@/view/cms/pictures/Cartoon')
@@ -128,134 +157,64 @@ export default [
     ]
   },
   {
-    path: '/components',
-    name: 'components',
+    path: '/multilevel',
+    name: 'multilevel',
     meta: {
-      icon: 'logo-buffer',
-      title: '组件'
+      icon: 'md-menu',
+      title: '多级菜单'
     },
     component: Main,
     children: [
       {
-        path: 'tree_select_page',
-        name: 'tree_select_page',
+        path: 'level_2_1',
+        name: 'level_2_1',
         meta: {
-          icon: 'md-arrow-dropdown-circle',
-          title: '树状下拉一'
+          icon: 'md-funnel',
+          title: '二级-1'
+        },
+        component: () => import('@/view/multilevel/level-2-1.vue')
+      },
+      {
+        path: 'level_2_2',
+        name: 'level_2_2',
+        meta: {
+          access: ['super_admin'],
+          icon: 'md-funnel',
+          showAlways: true,
+          title: '二级-2'
         },
         component: parentView,
         children: [
           {
-            path: 'tables_page',
-            name: 'tables_page',
+            path: 'level_2_2_1',
+            name: 'level_2_2_1',
             meta: {
-              icon: 'md-grid',
-              title: '多功能表格'
+              icon: 'md-funnel',
+              showAlways: true,
+              title: '三级'
             },
-            component: () => import('@/view/components/tables/tables.vue')
+            component: () => import('@/view/multilevel/level-2-2/level-2-2-1.vue')
           },
           {
-            path: 'split_pane_page',
-            name: 'split_pane_page',
+            path: 'level_2_2_2',
+            name: 'level_2_2_2',
+            showAlways: true,
             meta: {
-              icon: 'md-pause',
-              title: '分割窗口'
+              icon: 'md-funnel',
+              title: '三级'
             },
-            component: () => import('@/view/components/split-pane/split-pane.vue')
-          },
-          {
-            path: 'markdown_page',
-            name: 'markdown_page',
-            meta: {
-              icon: 'logo-markdown',
-              title: 'Markdown编辑器'
-            },
-            component: () => import('@/view/components/markdown/markdown.vue')
-          },
-          {
-            path: 'editor_page',
-            name: 'editor_page',
-            meta: {
-              icon: 'ios-create',
-              title: '富文本编辑器'
-            },
-            component: () => import('@/view/components/editor/editor.vue')
-          },
-          {
-            path: 'icons_page',
-            name: 'icons_page',
-            meta: {
-              icon: '_bear',
-              title: '自定义图标'
-            },
-            component: () => import('@/view/components/icons/icons.vue')
+            component: () => import('@/view/multilevel/level-2-2/level-2-2-2.vue')
           }
         ]
       },
       {
-        path: 'tree',
-        name: 'tree',
+        path: 'level_2_3',
+        name: 'level_2_3',
         meta: {
-          icon: 'md-arrow-dropdown-circle',
-          title: '树状二'
+          icon: 'md-funnel',
+          title: '二级-3'
         },
-        component: parentView,
-        children: [
-          {
-            path: 'count_to_page',
-            name: 'count_to_page',
-            meta: {
-              icon: 'md-trending-up',
-              title: '数字渐变'
-            },
-            component: () => import('@/view/components/count-to/count-to.vue')
-          },
-          {
-            path: 'drag_list_page',
-            name: 'drag_list_page',
-            meta: {
-              icon: 'ios-infinite',
-              title: '拖拽列表'
-            },
-            component: () => import('@/view/components/drag-list/drag-list.vue')
-          },
-          {
-            path: 'drag_drawer_page',
-            name: 'drag_drawer_page',
-            meta: {
-              icon: 'md-list',
-              title: '可拖拽抽屉'
-            },
-            component: () => import('@/view/components/drag-drawer')
-          },
-          {
-            path: 'org_tree_page',
-            name: 'org_tree_page',
-            meta: {
-              icon: 'ios-people',
-              title: '组织结构树'
-            },
-            component: () => import('@/view/components/org-tree')
-          },
-          {
-            path: 'tree_table_page',
-            name: 'tree_table_page',
-            meta: {
-              icon: 'md-git-branch',
-              title: '树状表格'
-            },
-            component: () => import('@/view/components/tree-table/index.vue')
-          },
-          {
-            path: 'cropper_page',
-            name: 'cropper_page',
-            meta: {
-              icon: 'md-crop',
-              title: '图片裁剪'
-            },
-            component: () => import('@/view/components/cropper/cropper.vue')
-          }
-        ]
+        component: () => import('@/view/multilevel/level-2-3.vue')
       }
     ]
   },

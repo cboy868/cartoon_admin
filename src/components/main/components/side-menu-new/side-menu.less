@@ -1,0 +1,97 @@
+.side-menu-wrapper{
+  user-select: none;
+  .ivu-menu-dark{
+    background: none;
+    &.ivu-menu-dark {
+      .ivu-menu-opened{
+        background: none;
+      }
+    }
+  }
+  .menu-collapsed{
+    padding-top: 10px;
+
+    .ivu-dropdown{
+      width: 100%;
+      .ivu-dropdown-rel a{
+        width: 100%;
+      }
+    }
+    .ivu-tooltip{
+      width: 100%;
+      .ivu-tooltip-rel{
+        width: 100%;
+      }
+      .ivu-tooltip-popper .ivu-tooltip-content{
+        .ivu-tooltip-arrow{
+          border-right-color: #fff;
+        }
+        .ivu-tooltip-inner{
+          background: #fff;
+          color: #495060;
+        }
+      }
+    }
+    .ivu-menu-vertical{
+      position: relative;
+    }
+  }
+  a.drop-menu-a{
+    display: inline-block;
+    padding: 6px 15px;
+    width: 100%;
+    text-align: center;
+    color: #495060;
+  }
+  li.ivu-menu-submenu{
+    width: 100%;
+    ul.ivu-menu{
+      top: 0px;
+      display: block;
+      width: 140px;
+      height: 100%;
+      position: absolute;
+      z-index: 1;
+      right: 0;
+      .ivu-menu-item{
+        color:#777;
+        padding-left: 10px !important;
+        font-size: 12px;
+        height: 36px;
+        line-height: 36px;
+        padding: unset;
+      }
+    }
+    div.ivu-menu-submenu-title{
+      display: block;
+      width: 70px;
+      height: 70px;
+      padding:unset;
+      .ivu-icon{
+        position: absolute;
+        top: 14px;
+        left: 0;
+        width: 65px;
+        text-align: center
+      }
+      span{
+        position: absolute;
+        top: 36px;
+        left: 0px;
+        width: 65px;
+        text-align: center;
+        font-size: 12px;
+      }
+      .ivu-menu-submenu-title-icon{
+        display: none;
+      }
+    }
+    li.ivu-menu-item{
+      padding-left: 5px;
+    }
+  }
+  
+}
+.menu-title{
+  padding-left: 6px;
+}

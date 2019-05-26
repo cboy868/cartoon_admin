@@ -69,6 +69,15 @@ export default [
         component: parentView,
         children: [
           {
+            path: 'cropper_page',
+            name: 'cropper_page',
+            meta: {
+              icon: 'md-crop',
+              title: '图片裁剪'
+            },
+            component: () => import('@/view/components/cropper/cropper.vue')
+          },
+          {
             path: 'categorys',
             name: 'categorys',
             meta: {
@@ -77,52 +86,52 @@ export default [
             },
             component: () => import('@/view/cms/pictures/PictureCategory')
           },
-          {
-            path: 'pictures',
-            name: 'pictures',
-            meta: {
-              title: '图片列表',
-              icon: 'md-home'
-            },
-            component: () => import('@/view/cms/pictures/Picture')
-          },
-          {
-            path: 'images/:id',
-            name: 'images',
-            meta: {
-              title: '主图管理',
-              icon: 'md-home',
-              hideInMenu: true
-            },
-            component: () => import('@/view/cms/pictures/Images')
-          },
-          {
-            path: 'focus',
-            name: 'focus',
-            meta: {
-              title: '焦点图管理',
-              icon: 'md-home'
-            },
-            component: () => import('@/view/cms/focus/Index')
-          },
-          {
-            path: 'cartoon',
-            name: 'cartoon',
-            meta: {
-              title: '漫画管理',
-              icon: 'md-home'
-            },
-            component: () => import('@/view/cms/pictures/Cartoon')
-          },
-          {
-            path: 'chapter/:id',
-            name: 'chapter',
-            meta: {
-              title: '漫画章节管理',
-              hideInMenu: true
-            },
-            component: () => import('@/view/cms/pictures/Chapter')
-          }
+          // {
+          //   path: 'pictures',
+          //   name: 'pictures',
+          //   meta: {
+          //     title: '图片列表',
+          //     icon: 'md-home'
+          //   },
+          //   component: () => import('@/view/cms/pictures/Picture')
+          // },
+          // {
+          //   path: 'images/:id',
+          //   name: 'images',
+          //   meta: {
+          //     title: '主图管理',
+          //     icon: 'md-home',
+          //     hideInMenu: true
+          //   },
+          //   component: () => import('@/view/cms/pictures/Images')
+          // },
+          // {
+          //   path: 'focus',
+          //   name: 'focus',
+          //   meta: {
+          //     title: '焦点图管理',
+          //     icon: 'md-home'
+          //   },
+          //   component: () => import('@/view/cms/focus/Index')
+          // },
+          // {
+          //   path: 'cartoon',
+          //   name: 'cartoon',
+          //   meta: {
+          //     title: '漫画管理',
+          //     icon: 'md-home'
+          //   },
+          //   component: () => import('@/view/cms/pictures/Cartoon')
+          // },
+          // {
+          //   path: 'chapter/:id',
+          //   name: 'chapter',
+          //   meta: {
+          //     title: '漫画章节管理',
+          //     hideInMenu: true
+          //   },
+          //   component: () => import('@/view/cms/pictures/Chapter')
+          // }
         ]
       }
     ]
@@ -245,15 +254,6 @@ export default [
               title: '树状表格'
             },
             component: () => import('@/view/components/tree-table/index.vue')
-          },
-          {
-            path: 'cropper_page',
-            name: 'cropper_page',
-            meta: {
-              icon: 'md-crop',
-              title: '图片裁剪'
-            },
-            component: () => import('@/view/components/cropper/cropper.vue')
           }
         ]
       }

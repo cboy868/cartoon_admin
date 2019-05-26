@@ -8,7 +8,7 @@
     @on-select="handleSelect"
   >
     <template v-for="item in menuList">
-      <menu-item :key="`menu-${item.name}`" :name="item.name" :parent-item="item"><span>{{ showTitle(item) }}</span></menu-item>
+      <menu-item :key="`menu-${item.name}`" :name="item.name" :parent-item="item" active-name="activeName"><span>{{ showTitle(item) }}</span></menu-item>
       <!-- <menu-item :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`">
         <span>{{ showTitle(item) }}</span>
       </menu-item> -->

@@ -4,7 +4,7 @@
     <Menu
       ref="menu"
       v-show="!collapsed"
-      :active-name="activeName"
+      :active-name="activedName"
       :open-names="openedNames"
       :accordion="accordion"
       :theme="theme"
@@ -70,7 +70,7 @@
 <script>
 import SideMenuItem from "./side-menu-item.vue";
 import CollapsedMenu from "./collapsed-menu.vue";
-import { getUnion } from "@/libs/tools";
+import { getUnion,p } from "@/libs/tools";
 import mixin from "./mixin";
 
 export default {
@@ -114,7 +114,8 @@ export default {
   },
   data() {
     return {
-      openedNames: []
+      openedNames: [],
+      activedName:this.activeName
     };
   },
   methods: {
@@ -122,9 +123,11 @@ export default {
       this.$emit("on-select", name);
     },
     getOpenedNamesByActiveName(name) {
-      return this.$route.matched
+        let opends = this.$route.matched
         .map(item => item.name)
         .filter(item => item !== name);
+        opends.shift()
+        return opends;
     },
     updateOpenName(name) {
       if (name === this.$config.homeName) this.openedNames = [];
@@ -137,15 +140,6 @@ export default {
     }
   },
   watch: {
-    menuList(menus) {
-      if (this.menuChanged == 0) return;
-      this.openedNames = [menus[0]["name"]];
-
-      this.$nextTick(() => {
-        this.$refs.menu.updateOpened();
-        this.$refs.menu.updateActiveName();
-      });
-    },
     activeName(name) {
       if (this.accordion)
         this.openedNames = this.getOpenedNamesByActiveName(name);

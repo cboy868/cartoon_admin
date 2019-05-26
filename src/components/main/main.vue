@@ -83,6 +83,7 @@ import minLogo from "@/assets/images/logo-min.png";
 import maxLogo from "@/assets/images/logo.png";
 import leftBackground from "@/assets/images/repeat_y_bg.png";
 import "./main.less";
+import { p } from "@/libs/tools";
 export default {
   name: "Main",
   components: {
@@ -104,7 +105,7 @@ export default {
       isFullscreen: false,
       leftMenuList: [],
       activeName: "",
-      menuChanged:0
+      menuChanged: 0
     };
   },
   computed: {
@@ -152,20 +153,33 @@ export default {
       "closeTag"
     ]),
     ...mapActions(["handleLogin", "getUnreadMessageCount"]),
-    
+
     changeMenu(route) {
+      var menu = this.menuList.find(function(ele) {
+        return ele.name == route;
+      });
 
-console.dir(route);
+      if (menu && menu.hasOwnProperty("children")) {
+        this.leftMenuList = menu.children;
 
-      var menu = this.menuList.find(function(element) {
-        return element.name == route;
+        try {
+          let toRoute = menu.children[0].children[0];
+          this.turnToPage(toRoute);
+        } catch (e) {
+          console.dir(e); // pass exception object to error handler
+        }
+      }
+    },
+    toMenu(rootRoute, route){
+      var menu = this.menuList.find(function(ele) {
+        return ele.name == rootRoute;
       });
 
       if (menu && menu.hasOwnProperty("children")) {
         this.leftMenuList = menu.children;
       }
 
-      
+      this.turnToPage(route);
     },
     turnToPage(route) {
       let { name, params, query } = {};
@@ -205,7 +219,7 @@ console.dir(route);
     }
   },
   watch: {
-    $route(newRoute) {
+    '$route'(newRoute) {
       const { name, query, params, meta } = newRoute;
       this.addTag({
         route: { name, query, params, meta },
@@ -217,11 +231,6 @@ console.dir(route);
     }
   },
   mounted() {
-
-
-console.dir(this.menuList);
-
-    this.changeMenu(this.$route.matched[0].name);
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
@@ -244,6 +253,8 @@ console.dir(this.menuList);
     }
     // 获取未读消息条数
     this.getUnreadMessageCount();
+
+    this.toMenu(this.$route.matched[0].name, this.$route.name);
   }
 };
 </script>

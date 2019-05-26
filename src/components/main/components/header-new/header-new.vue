@@ -4,7 +4,7 @@
       <img :src="maxLogo" key="max-logo" class="logo">
       <sider-trigger :collapsed="collapsed" icon="md-menu" @on-change="handleCollpasedChange"></sider-trigger>
     </div>
-    <header-menu :menu-list="menuList" @on-select="handleSelect"></header-menu>
+    <header-menu :menu-list="menuList" @on-select="handleSelect" :active-name="activeName"></header-menu>
     <div class="custom-content-con">
       <slot></slot>
     </div>
@@ -28,6 +28,10 @@ export default {
       default() {
         return [];
       }
+    },
+    activeName: {
+      type: String,
+      default: ""
     },
   },
   computed: {

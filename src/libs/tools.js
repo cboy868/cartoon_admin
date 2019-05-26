@@ -213,3 +213,14 @@ export const objEqual = (obj1, obj2) => {
   /* eslint-disable-next-line */
   else return !keysArr1.some(key => obj1[key] != obj2[key])
 }
+
+
+/**
+ * 打印log
+ */
+export const p = (item)=>{
+  console.dir('----------------打印 console.log---------------')
+  console.dir(item);
+  console.dir('----------------结束 console.log---------------')
+}
+

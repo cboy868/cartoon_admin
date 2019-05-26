@@ -397,3 +397,10 @@ export const setTitle = (routeItem, vm) => {
   const resTitle = pageTitle ? `${title} - ${pageTitle}` : title
   window.document.title = resTitle
 }
+
+
+export const p = (item)=>{
+  console.dir('----------------打印 console.log---------------')
+  console.dir(item);
+  console.dir('----------------结束 console.log---------------')
+}

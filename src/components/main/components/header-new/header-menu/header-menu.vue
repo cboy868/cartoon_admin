@@ -8,10 +8,18 @@
     @on-select="handleSelect"
   >
     <template v-for="item in menuList">
-      <menu-item :key="`menu-${item.name}`" :name="item.name" :parent-item="item" active-name="activeName"><span>{{ showTitle(item) }}</span></menu-item>
+      <menu-item
+        :key="`menu-${item.name}`"
+        :name="item.name"
+        :parent-item="item"
+        @click.native="handleClick(item)"
+        active-name="activeName"
+      >
+        <span>{{ showTitle(item) }}</span>
+      </menu-item>
       <!-- <menu-item :name="getNameOrHref(item, true)" :key="`menu-${item.children[0].name}`">
         <span>{{ showTitle(item) }}</span>
-      </menu-item> -->
+      </menu-item>-->
     </template>
   </Menu>
 </template>
@@ -44,6 +52,9 @@ export default {
     };
   },
   methods: {
+    handleClick(item){
+      this.$emit('input', item.children[0].children[0]);
+    },
     handleSelect(name) {
       this.$emit("on-select", name);
     },

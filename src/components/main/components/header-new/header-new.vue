@@ -4,7 +4,7 @@
       <img :src="maxLogo" key="max-logo" class="logo">
       <sider-trigger :collapsed="collapsed" icon="md-menu" @on-change="handleCollpasedChange"></sider-trigger>
     </div>
-    <header-menu :menu-list="menuList" @on-select="handleSelect" :active-name="activeName"></header-menu>
+    <header-menu :menu-list="menuList" @on-select="handleSelect" :active-name="activeName" @input="handleClick"></header-menu>
     <div class="custom-content-con">
       <slot></slot>
     </div>
@@ -40,6 +40,9 @@ export default {
     }
   },
   methods: {
+    handleClick(item){
+      this.$emit('on-click', item);
+    },
     handleSelect(name) {
       this.$emit("on-select", name);
     },

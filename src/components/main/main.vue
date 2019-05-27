@@ -7,7 +7,7 @@
         :maxLogo="maxLogo"
         :menu-list="menuList"
         :active-name="topActive"
-        @on-select="changeMenu"
+        @on-click="turnToPage"
       >
         <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
         <language
@@ -168,22 +168,7 @@ export default {
       "setCurrentRoute"
     ]),
     ...mapActions(["handleLogin", "getUnreadMessageCount"]),
-
-    changeMenu(route) {
-      var menu = this.menuList.find(function(ele) {
-        return ele.name == route;
-      });
-
-      if (menu && menu.hasOwnProperty("children")) {
-        try {
-          let toRoute = menu.children[0].children[0];
-          this.turnToPage(toRoute);
-        } catch (e) {
-          console.dir(e); // pass exception object to error handler
-        }
-      }
-    },
-
+    
     turnToPage(route) {
       let { name, params, query } = {};
       if (typeof route === "string") name = route;
@@ -219,6 +204,7 @@ export default {
       this.setTagNavList(res);
     },
     handleClick(item) {
+      p(item);
       this.turnToPage(item);
     },
     /**

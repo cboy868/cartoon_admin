@@ -6,7 +6,7 @@
         @on-coll-change="handleCollapsedChange"
         :maxLogo="maxLogo"
         :menu-list="menuList"
-        :active-name="$route.name"
+        :active-name="leftActive"
         @on-select="changeMenu"
       >
         <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
@@ -38,8 +38,9 @@
         <side-menu
           accordion
           ref="sideMenu"
-          :active-name="$router.name"
+          :active-name="leftActive"
           :collapsed="collapsed"
+          :open-names="leftOpens"
           @on-select="turnToPage"
           :menu-list="leftMenuList"
         >
@@ -103,7 +104,6 @@ export default {
       maxLogo,
       leftBackground,
       isFullscreen: false,
-      leftMenuList: [],
       activeName: "",
       menuChanged: 0
     };
@@ -133,6 +133,18 @@ export default {
     menuList() {
       return this.$store.getters.menuList;
     },
+    leftMenuList(){
+      return this.$store.getters.leftMenuList;
+    },
+    leftOpens(){
+      return this.$store.state.app.leftOpens;
+    },
+    leftActive(){
+      return this.$store.getters.leftActive;
+    },
+    topActive(){
+      return this.$store.getters.topActive;
+    },
     local() {
       return this.$store.state.app.local;
     },
@@ -150,18 +162,22 @@ export default {
       "addTag",
       "setLocal",
       "setHomeRoute",
-      "closeTag"
+      "closeTag",
+
+      "setleftOpens",
+      "setCurrentRoute"
     ]),
     ...mapActions(["handleLogin", "getUnreadMessageCount"]),
 
     changeMenu(route) {
+
       var menu = this.menuList.find(function(ele) {
         return ele.name == route;
       });
 
-      if (menu && menu.hasOwnProperty("children")) {
-        this.leftMenuList = menu.children;
+      // p(menu);
 
+      if (menu && menu.hasOwnProperty("children")) {
         try {
           let toRoute = menu.children[0].children[0];
           this.turnToPage(toRoute);
@@ -169,6 +185,7 @@ export default {
           console.dir(e); // pass exception object to error handler
         }
       }
+
     },
     toMenu(rootRoute, route){
       var menu = this.menuList.find(function(ele) {
@@ -176,7 +193,7 @@ export default {
       });
 
       if (menu && menu.hasOwnProperty("children")) {
-        this.leftMenuList = menu.children;
+        // this.leftMenuList = menu.children;
       }
 
       this.turnToPage(route);
@@ -193,11 +210,17 @@ export default {
         window.open(name.split("_")[1]);
         return;
       }
+
       this.$router.push({
         name,
         params,
         query
       });
+
+
+      this.initMenu(this.$route);
+
+      // p(this.$store.getters.leftMenuList);
     },
     handleCollapsedChange(state) {
       this.collapsed = state;
@@ -216,10 +239,17 @@ export default {
     },
     handleClick(item) {
       this.turnToPage(item);
+    },
+    /**
+     * 初始化菜单状态
+     */
+    initMenu(route){
+        this.setCurrentRoute(route);
     }
   },
   watch: {
     '$route'(newRoute) {
+      // p(newRoute);
       const { name, query, params, meta } = newRoute;
       this.addTag({
         route: { name, query, params, meta },
@@ -227,10 +257,18 @@ export default {
       });
       this.setBreadCrumb(newRoute);
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute));
-      this.$refs.sideMenu.updateOpenName(newRoute.name);
+      // this.$refs.sideMenu.updateOpenName(newRoute.name);
+
+      // this.setTopActive();
+      // this.setleftOpens();
+      // this.setLeftActive();
+      this.initMenu(this.$route);
     }
   },
   mounted() {
+
+    
+
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
@@ -255,6 +293,8 @@ export default {
     this.getUnreadMessageCount();
 
     this.toMenu(this.$route.matched[0].name, this.$route.name);
+
+    this.initMenu(this.$route);
   }
 };
 </script>

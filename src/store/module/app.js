@@ -9,12 +9,14 @@ import {
   routeEqual,
   getRouteTitleHandled,
   localSave,
-  localRead
+  localRead,
+  getLeftMenuByActive
 } from '@/libs/util'
 import { saveErrorLogger } from '@/api/data'
 import router from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
+import { p } from '../../libs/util';
 const { homeName } = config
 
 const closePage = (state, route) => {
@@ -32,13 +34,26 @@ export default {
     homeRoute: {},
     local: localRead('local'),
     errorList: [],
-    hasReadErrorPage: false
+    hasReadErrorPage: false,
+
+    currentRoute:{},
+    leftMenuList:[],
+    leftOpens:[]
   },
   getters: {
     menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
-    errorCount: state => state.errorList.length
+    errorCount: state => state.errorList.length,
+    leftMenuList:(state, getters) => getLeftMenuByActive(getters.menuList,state.currentRoute),
+    leftActive:(state) => {return state.currentRoute.name},
+    topActive:(state) => {return state.currentRoute.matched[0].name}
   },
   mutations: {
+    setCurrentRoute(state, route){
+      state.currentRoute = route;
+    },
+    setleftOpens(state,names){
+      state.leftOpens = names;
+    },
     setBreadCrumb (state, route) {
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
     },

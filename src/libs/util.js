@@ -49,6 +49,32 @@ export const getMenuByRouter = (list, access) => {
   return res
 }
 
+export const getLeftMenuByActive = (menuList, currentRoute) => {
+
+ 
+  // if (!('matched' in currentRoute)) {
+  //   console.dir('----------------')
+  //   console.dir(currentRoute);
+  //   console.dir('----------------')
+
+  //   return [];
+  // }
+
+   console.dir('-----1-----------')
+    console.dir(currentRoute);
+    console.dir('----2------------')
+
+  let activeName = currentRoute.matched[0].name
+
+  var menu = menuList.find(function(ele) {
+    return ele.name == activeName;
+  });
+
+  if (menu && menu.hasOwnProperty("children")) {
+    return menu.children;
+  }
+}
+
 /**
  * @param {Array} routeMetched 当前路由metched
  * @returns {Array}

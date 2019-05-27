@@ -49,23 +49,12 @@ export const getMenuByRouter = (list, access) => {
   return res
 }
 
+export const getLeftActiveMenu = (currentRoute) => {
+  return currentRoute.matched[0].name;
+}
+
 export const getLeftMenuByActive = (menuList, currentRoute) => {
-
- 
-  // if (!('matched' in currentRoute)) {
-  //   console.dir('----------------')
-  //   console.dir(currentRoute);
-  //   console.dir('----------------')
-
-  //   return [];
-  // }
-
-   console.dir('-----1-----------')
-    console.dir(currentRoute);
-    console.dir('----2------------')
-
   let activeName = currentRoute.matched[0].name
-
   var menu = menuList.find(function(ele) {
     return ele.name == activeName;
   });

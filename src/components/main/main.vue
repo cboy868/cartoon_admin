@@ -6,7 +6,7 @@
         @on-coll-change="handleCollapsedChange"
         :maxLogo="maxLogo"
         :menu-list="menuList"
-        :active-name="leftActive"
+        :active-name="topActive"
         @on-select="changeMenu"
       >
         <user :message-unread-count="unreadCount" :user-avator="userAvator"/>
@@ -133,16 +133,16 @@ export default {
     menuList() {
       return this.$store.getters.menuList;
     },
-    leftMenuList(){
+    leftMenuList() {
       return this.$store.getters.leftMenuList;
     },
-    leftOpens(){
+    leftOpens() {
       return this.$store.state.app.leftOpens;
     },
-    leftActive(){
+    leftActive() {
       return this.$store.getters.leftActive;
     },
-    topActive(){
+    topActive() {
       return this.$store.getters.topActive;
     },
     local() {
@@ -170,12 +170,9 @@ export default {
     ...mapActions(["handleLogin", "getUnreadMessageCount"]),
 
     changeMenu(route) {
-
       var menu = this.menuList.find(function(ele) {
         return ele.name == route;
       });
-
-      // p(menu);
 
       if (menu && menu.hasOwnProperty("children")) {
         try {
@@ -185,19 +182,8 @@ export default {
           console.dir(e); // pass exception object to error handler
         }
       }
-
     },
-    toMenu(rootRoute, route){
-      var menu = this.menuList.find(function(ele) {
-        return ele.name == rootRoute;
-      });
 
-      if (menu && menu.hasOwnProperty("children")) {
-        // this.leftMenuList = menu.children;
-      }
-
-      this.turnToPage(route);
-    },
     turnToPage(route) {
       let { name, params, query } = {};
       if (typeof route === "string") name = route;
@@ -216,11 +202,6 @@ export default {
         params,
         query
       });
-
-
-      this.initMenu(this.$route);
-
-      // p(this.$store.getters.leftMenuList);
     },
     handleCollapsedChange(state) {
       this.collapsed = state;
@@ -243,13 +224,13 @@ export default {
     /**
      * 初始化菜单状态
      */
-    initMenu(route){
-        this.setCurrentRoute(route);
+    initMenu(route) {
+      this.setCurrentRoute(route);
+      this.setleftOpens([route.matched[1].name]);
     }
   },
   watch: {
-    '$route'(newRoute) {
-      // p(newRoute);
+    $route(newRoute) {
       const { name, query, params, meta } = newRoute;
       this.addTag({
         route: { name, query, params, meta },
@@ -257,18 +238,13 @@ export default {
       });
       this.setBreadCrumb(newRoute);
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute));
-      // this.$refs.sideMenu.updateOpenName(newRoute.name);
-
-      // this.setTopActive();
-      // this.setleftOpens();
-      // this.setLeftActive();
       this.initMenu(this.$route);
     }
   },
+  created() {
+    this.setCurrentRoute(this.$route);
+  },
   mounted() {
-
-    
-
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
@@ -291,10 +267,6 @@ export default {
     }
     // 获取未读消息条数
     this.getUnreadMessageCount();
-
-    this.toMenu(this.$route.matched[0].name, this.$route.name);
-
-    this.initMenu(this.$route);
   }
 };
 </script>

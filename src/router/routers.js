@@ -133,6 +133,36 @@ export default [
             component: () => import('@/view/cms/pictures/Chapter')
           }
         ]
+      },
+      {
+        path: 'example',
+        name: 'example',
+        showAlways:true,
+        meta: {
+          title: '实例',
+          icon: 'md-home'
+        },
+        component: parentView,
+        children: [
+          {
+            path: 'table',
+            name: 'table',
+            meta: {
+              icon: 'md-crop',
+              title: '表格'
+            },
+            component: () => import('@/view/example/Table.vue')
+          },
+          {
+            path: 'form',
+            name: 'form',
+            meta: {
+              icon: 'md-crop',
+              title: '表单'
+            },
+            component: () => import('@/view/example/Table.vue')
+          },
+        ]
       }
     ]
   },

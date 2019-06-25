@@ -17,8 +17,8 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    // local: 'http://localhost.lichen/api/admin/',
-    local: 'http://api.douyule.com/api/admin/'
+    local: 'http://localhost.lichen/api/admin/',
+    prod: 'http://api.douyule.com/api/admin/'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home

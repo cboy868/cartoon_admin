@@ -4,6 +4,10 @@
 
 <template>
   <div class="login">
+    <div class="poem">
+      <img :src="poem" alt="">
+    </div>
+
     <div class="login-con">
       <Card icon="log-in" title="欢迎登录" :bordered="false">
         <div class="form-con">
@@ -18,7 +22,13 @@
 <script>
 import LoginForm from "_c/login-form";
 import { mapActions } from "vuex";
+import poem from "@/assets/images/poem.jpg";
 export default {
+  data() {
+    return {
+      poem
+    };
+  },
   components: {
     LoginForm
   },
@@ -38,4 +48,15 @@ export default {
 </script>
 
 <style>
+.poem img {
+  height: 700px;
+  margin-left: 180px;
+  margin-top: 120px;
+  opacity: 0.9;
+  transform: skew(-12deg) rotate(-4deg);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+  filter: alpha(opacity=50);
+  box-sizing: border-box;
+  border: 10px solid transparent;
+}
 </style>

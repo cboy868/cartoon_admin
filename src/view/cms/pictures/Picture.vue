@@ -164,7 +164,7 @@ export default {
         {
           title: "操作",
           slot: "action",
-          width: 250,
+          width: 330,
           align: "center",
           fixed: "right"
         }
@@ -175,21 +175,21 @@ export default {
   methods: {
     recommend(index) {
       recommend(this.tableData[index].id).then(res => {
-        if (res.code === "0") {
+        if (res.data.code === "0") {
           this.$Message.success("推荐成功");
           this.tableData[index].flag = 1;
         } else {
-          this.$Message.success("推荐失败");
+          this.$Message.errir("推荐失败");
         }
       });
     },
     unrecommend(index) {
       unrecommend(this.tableData[index].id).then(res => {
-        if (res.code === "0") {
+        if (res.data.code === "0") {
           this.$Message.success("取消推荐成功");
           this.tableData[index].flag = 0;
         } else {
-          this.$Message.success("取消推荐失败");
+          this.$Message.errir("取消推荐失败");
         }
       });
     },
@@ -254,6 +254,7 @@ export default {
             res.data.data.data.forEach(item => {
               this.tableData.push({
                 id: item.id.toString(),
+                flag: item.flag,
                 category_id: item.category.id,
                 category: item.category.name,
                 author: item.author,

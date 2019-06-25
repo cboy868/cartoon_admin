@@ -52,6 +52,25 @@
             type="default"
             size="small"
             style="margin-right: 5px"
+            @click="recommend(index)"
+            v-if="row.flag != 1"
+          >
+            <span style="color:green">推荐</span>
+          </Button>
+
+          <Button
+            type="default"
+            size="small"
+            style="margin-right: 5px"
+            @click="unrecommend(index)"
+            v-if="row.flag == 1"
+          >
+            <span style="color:green">取消推荐</span>
+          </Button>
+          <Button
+            type="default"
+            size="small"
+            style="margin-right: 5px"
             @click="edit(index)"
             v-if="editing != index"
           >
@@ -115,7 +134,9 @@ import Tables from "_c/tables";
 import {
   getPictureData,
   deletePictureData,
-  updatePictureData
+  updatePictureData,
+  recommend,
+  unrecommend
 } from "@/api/pictures";
 export default {
   name: "pictures",
@@ -143,7 +164,7 @@ export default {
         {
           title: "操作",
           slot: "action",
-          width: 250,
+          width: 330,
           align: "center",
           fixed: "right"
         }
@@ -152,6 +173,26 @@ export default {
     };
   },
   methods: {
+    recommend(index) {
+      recommend(this.tableData[index].id).then(res => {
+        if (res.code === "0") {
+          this.$Message.success("推荐成功");
+          this.tableData[index].flag = 1;
+        } else {
+          this.$Message.success("推荐失败");
+        }
+      });
+    },
+    unrecommend(index) {
+      unrecommend(this.tableData[index].id).then(res => {
+        if (res.code === "0") {
+          this.$Message.success("取消推荐成功");
+          this.tableData[index].flag = 0;
+        } else {
+          this.$Message.success("取消推荐失败");
+        }
+      });
+    },
     handleView(thumb) {
       console.dir(thumb);
       this.currentThumb = thumb;

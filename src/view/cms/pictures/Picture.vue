@@ -52,6 +52,25 @@
             type="default"
             size="small"
             style="margin-right: 5px"
+            @click="recommend(index)"
+            v-if="row.flag != 1"
+          >
+            <span style="color:green">推荐</span>
+          </Button>
+
+          <Button
+            type="default"
+            size="small"
+            style="margin-right: 5px"
+            @click="unrecommend(index)"
+            v-if="row.flag == 1"
+          >
+            <span style="color:green">取消推荐</span>
+          </Button>
+          <Button
+            type="default"
+            size="small"
+            style="margin-right: 5px"
             @click="edit(index)"
             v-if="editing != index"
           >
@@ -115,7 +134,9 @@ import axios from "@/libs/api.request";
 import {
   getPictureData,
   deletePictureData,
-  updatePictureData
+  updatePictureDatam,
+  recommend,
+  unrecommend
 } from "@/api/pictures";
 export default {
   name: "pictures",
@@ -139,7 +160,7 @@ export default {
         { title: "分类", slot: "category", width: "150px" },
         { title: "介绍", slot: "intro" },
         { title: "创建时间", key: "created_at", width: "150px" },
-        { title: "封面", slot: "thumb", width: "100px" ,className:"thumb"},
+        { title: "封面", slot: "thumb", width: "100px", className: "thumb" },
         {
           title: "操作",
           slot: "action",
@@ -152,6 +173,26 @@ export default {
     };
   },
   methods: {
+    recommend(index) {
+      recommend(this.tableData[index].id).then(res => {
+        if (res.code === "0") {
+          this.$Message.success("推荐成功");
+          this.tableData[index].flag = 1;
+        } else {
+          this.$Message.success("推荐失败");
+        }
+      });
+    },
+    unrecommend(index) {
+      unrecommend(this.tableData[index].id).then(res => {
+        if (res.code === "0") {
+          this.$Message.success("取消推荐成功");
+          this.tableData[index].flag = 0;
+        } else {
+          this.$Message.success("取消推荐失败");
+        }
+      });
+    },
     handleView(thumb) {
       console.dir(thumb);
       this.currentThumb = thumb;
@@ -237,7 +278,7 @@ export default {
 </script>
 
 <style>
-.thumb .ivu-table-cell div{
+.thumb .ivu-table-cell div {
   overflow: hidden;
 }
 </style>

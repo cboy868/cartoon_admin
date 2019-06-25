@@ -94,3 +94,19 @@ export const updateChapterData = (data) => {
     method: 'post'
   })
 }
+
+export const recommend = (id) => {
+  return axios.request({
+    url: 'picture-recommend/' + data['id'],
+    data: {},
+    method: 'post'
+  })
+}
+
+export const unrecommend = (id) => {
+  return axios.request({
+    url: 'picture-unrecommend/' + data['id'],
+    data: {},
+    method: 'post'
+  })
+}
